@@ -5,6 +5,8 @@ import gr.ote.finalproject.repository.PropertyOwnerRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+
 @Service
 public class PropertyOwnerServiceImpl implements PropertyOwnerService{
 
@@ -32,17 +34,12 @@ public class PropertyOwnerServiceImpl implements PropertyOwnerService{
     }
 
     @Override
-    public boolean updatePropertyOwnerByEmail(String email, PropertyOwner propertyOwner) {
-        return propertyOwnerRepository.updatePropertyOwnerByEmail(email, propertyOwner);
-    }
-
-    @Override
     public boolean deletePropertyOwnerByVatNumber(String vatNumber) {
         return propertyOwnerRepository.deletePropertyOwnerByVatNumber(vatNumber);
     }
 
     @Override
-    public boolean deletePropertyOwnerByEmail(String email) {
-        return propertyOwnerRepository.deletePropertyOwnerByEmail(email);
+    public List<PropertyOwner> findAllPropertyOwners() {
+        return propertyOwnerRepository.findAllPropertyOwner();
     }
 }
