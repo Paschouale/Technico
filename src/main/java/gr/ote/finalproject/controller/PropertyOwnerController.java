@@ -40,14 +40,14 @@ public class PropertyOwnerController {
         return propertyOwnerService.findAllPropertyOwners();
     }
 
-    @PutMapping("{vatNumber}") //localhost:8080/api/propertyowner/132156888
-    public boolean updatePropertyOwnerByVatNumber(@PathVariable String vatNumber, @RequestBody PropertyOwner propertyOwner){
-        return propertyOwnerService.updatePropertyOwnerByVatNumber(vatNumber, propertyOwner);
+    @PutMapping("{id}") //localhost:8080/api/propertyowner/1
+    public boolean updatePropertyOwnerByVatNumber(@PathVariable Long id, @RequestBody PropertyOwner propertyOwner){
+        return propertyOwnerService.updatePropertyOwnerByVatNumber(id, propertyOwner);
     }
 
-    @DeleteMapping("{vatNumber}") //localhost:8080/api/propertyowner/132156888
-    public boolean deletePropertyOwnerByVatNumber(@PathVariable String vatNumber){
-        return propertyOwnerService.deletePropertyOwnerByVatNumber(vatNumber);
+    @DeleteMapping("{id}") //localhost:8080/api/propertyowner/1
+    public boolean deletePropertyOwnerByVatNumber(@PathVariable Long id){
+        return propertyOwnerService.deletePropertyOwnerByVatNumber(id);
     }
 
 }

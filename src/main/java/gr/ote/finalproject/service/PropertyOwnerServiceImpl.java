@@ -2,44 +2,66 @@ package gr.ote.finalproject.service;
 
 import gr.ote.finalproject.domain.PropertyOwner;
 import gr.ote.finalproject.repository.PropertyOwnerRepository;
-import org.springframework.beans.factory.annotation.Autowired;
+import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Optional;
 
 @Service
+@AllArgsConstructor
 public class PropertyOwnerServiceImpl implements PropertyOwnerService{
 
-    @Autowired
-    private PropertyOwnerRepository propertyOwnerRepository;
+    private final PropertyOwnerRepository propertyOwnerRepository;
 
     @Override
     public PropertyOwner createPropertyOwner(PropertyOwner propertyOwner) {
-        return propertyOwnerRepository.createPropertyOwner(propertyOwner);
+        return propertyOwnerRepository.save(propertyOwner);
     }
 
     @Override
     public PropertyOwner findPropertyOwnerByVatNumber(String vatNumber) {
-        return propertyOwnerRepository.findPropertyOwnerByVatNumber(vatNumber);
+        return propertyOwnerRepository.findByVatNumber(vatNumber);
     }
 
     @Override
     public PropertyOwner findPropertyOwnerByEmail(String email) {
-        return propertyOwnerRepository.findPropertyOwnerByEmail(email);
+        return propertyOwnerRepository.findByEmail(email);
     }
 
     @Override
-    public boolean updatePropertyOwnerByVatNumber(String vatNumber, PropertyOwner propertyOwner) {
-        return propertyOwnerRepository.updatePropertyOwnerByVatNumber(vatNumber, propertyOwner);
+    public boolean updatePropertyOwnerByVatNumber(Long id, PropertyOwner propertyOwner) {
+        Optional<PropertyOwner> tempPropertyOwner = propertyOwnerRepository.findById(id);
+
+        if (tempPropertyOwner.isPresent()) {
+            PropertyOwner existingOwner = tempPropertyOwner.get();
+
+            existingOwner.setVatNumber(propertyOwner.getVatNumber());
+            existingOwner.setName(propertyOwner.getName());
+            existingOwner.setSurname(propertyOwner.getSurname());
+            existingOwner.setEmail(propertyOwner.getEmail());
+            existingOwner.setAddress(propertyOwner.getAddress());
+            existingOwner.setPhoneNumber(propertyOwner.getPhoneNumber());
+            existingOwner.setUsername(propertyOwner.getUsername());
+            existingOwner.setPropertyList(propertyOwner.getPropertyList());
+
+            propertyOwnerRepository.save(existingOwner);
+            return true;
+        }
+        return false;
     }
 
     @Override
-    public boolean deletePropertyOwnerByVatNumber(String vatNumber) {
-        return propertyOwnerRepository.deletePropertyOwnerByVatNumber(vatNumber);
+    public boolean deletePropertyOwnerByVatNumber(Long id) {
+        if (propertyOwnerRepository.existsById(id)) {
+            propertyOwnerRepository.deleteById(id);
+            return true;
+        }
+        return false;
     }
 
     @Override
     public List<PropertyOwner> findAllPropertyOwners() {
-        return propertyOwnerRepository.findAllPropertyOwner();
+        return propertyOwnerRepository.findAll();
     }
 }

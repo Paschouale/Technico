@@ -8,7 +8,7 @@ public interface PropertyOwnerService {
     PropertyOwner createPropertyOwner(PropertyOwner propertyOwner);
     PropertyOwner findPropertyOwnerByVatNumber(String vatNumber);
     PropertyOwner findPropertyOwnerByEmail(String email);
-    boolean updatePropertyOwnerByVatNumber(String vatNumber, PropertyOwner propertyOwner);
-    boolean deletePropertyOwnerByVatNumber(String vatNumber);
+    boolean updatePropertyOwnerByVatNumber(Long id, PropertyOwner propertyOwner);
+    boolean deletePropertyOwnerByVatNumber(Long id);
     List<PropertyOwner> findAllPropertyOwners();
 }
