@@ -29,10 +29,10 @@ public class RepairController {
         return repairService.findRepairById(id);
     }
 
-    @GetMapping("/property/{propertyIdNumber}") // localhost:8080/api/repair/property/P001
-    public List<Repair> findRepairsByPropertyIdNumber(@PathVariable String propertyIdNumber) {
-        return repairService.findRepairsByPropertyIdNumber(propertyIdNumber);
-    }
+//    @GetMapping("/property/{propertyIdNumber}") // localhost:8080/api/repair/property/P001
+//    public List<Repair> findRepairsByPropertyIdNumber(@PathVariable String propertyIdNumber) {
+//        return repairService.findRepairsByPropertyIdNumber(propertyIdNumber);
+//    }
 
     @GetMapping("/all") // localhost:8080/api/repair/all
     public List<Repair> findAllRepairs() {

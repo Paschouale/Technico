@@ -1,6 +1,7 @@
 package gr.ote.finalproject.domain;
 
 import gr.ote.finalproject.enumeration.PropertyType;
+import jakarta.persistence.*;
 import lombok.*;
 import lombok.experimental.SuperBuilder;
 
@@ -12,11 +13,14 @@ import java.util.List;
 @AllArgsConstructor
 @SuperBuilder
 @ToString(callSuper = true)
+@Entity
+@Table(name = "properties")
+@SequenceGenerator(name = "idGenerator", sequenceName = "property_seq", initialValue = 1, allocationSize = 1)
 public class Property extends BaseDomain{
 
-    private String propertyIdNumber;
     private String address;
     private Integer yearOfConstruction;
+    @Enumerated(EnumType.STRING)
     private PropertyType propertyType;
     private PropertyOwner propertyOwner; //Για το vat
     private List<Repair> repairList;
@@ -28,6 +32,5 @@ public class Property extends BaseDomain{
         this.propertyType = propertyType;
         this.yearOfConstruction = yearOfConstruction;
         this.address = address;
-        this.propertyIdNumber = propertyIdNumber;
     }
 }

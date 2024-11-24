@@ -2,6 +2,7 @@ package gr.ote.finalproject.domain;
 
 import gr.ote.finalproject.enumeration.RepairStatus;
 import gr.ote.finalproject.enumeration.RepairType;
+import jakarta.persistence.*;
 import lombok.*;
 import lombok.experimental.SuperBuilder;
 
@@ -13,10 +14,16 @@ import java.time.LocalDateTime;
 @AllArgsConstructor
 @SuperBuilder
 @ToString(callSuper = true)
+@Entity
+@Table(name = "repairs")
+@SequenceGenerator(name = "idGenerator", sequenceName = "repair_seq", initialValue = 1, allocationSize = 1)
+
 public class Repair extends BaseDomain{
 
     private LocalDateTime scheduledRepairDate;
+    @Enumerated(EnumType.STRING)
     private RepairStatus repairStatus = RepairStatus.STANDBY;
+    @Enumerated(EnumType.STRING)
     private RepairType repairType;
     private Double cost;
     private Property property; // Για το repair address και owner

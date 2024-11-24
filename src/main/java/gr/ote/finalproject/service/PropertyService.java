@@ -6,10 +6,10 @@ import java.util.List;
 
 public interface PropertyService {
     Property createProperty(Property property);
-    Property findPropertyByPropertyIdNumber(String propertyIdNumber);
-    List<Property> findPropertiesByOwnerVat(String vatNumber);
-    boolean updatePropertyByPropertyIdNumber(String propertyIdNumber, Property property);
-    boolean deletePropertyByPropertyIdNumber(String propertyIdNumber);
+    Property findPropertyByPropertyIdNumber(Long propertyIdNumber);
+//    List<Property> findPropertiesByOwnerVat(String vatNumber);
+    boolean updatePropertyByPropertyIdNumber(Long propertyIdNumber, Property property);
+    boolean deletePropertyByPropertyIdNumber(Long propertyIdNumber);
     List<Property> findAllProperties();
 }
 
