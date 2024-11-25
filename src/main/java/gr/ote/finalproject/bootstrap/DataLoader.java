@@ -25,16 +25,19 @@ public class DataLoader implements ApplicationRunner {
     private final RepairRepository repairRepository;
 
     public void run(ApplicationArguments args){
-        propertyOwnerRepository.save(PropertyOwner.builder().vatNumber("132156888").name("Dimitrios").surname("Paschalis").address("Grypari 152").email("paschouale@hotmail.com").username("Paschouale").build());
+        PropertyOwner propertyOwner1 = PropertyOwner.builder().vatNumber("132156888").name("Dimitrios").surname("Paschalis").address("Grypari 152").email("paschouale@hotmail.com").username("Paschouale").build();
+
+        propertyOwnerRepository.save(propertyOwner1);
         propertyOwnerRepository.save(PropertyOwner.builder().vatNumber("123456789").name("Yiota").surname("Plati").address("Grypari 152").phoneNumber("6932667112").username("YiotaPl").build());
         propertyOwnerRepository.save(PropertyOwner.builder().vatNumber("987654321").name("Spyros").surname("Farantos").address("Spiti tou").phoneNumber("6999897654").username("SpyrosF").build());
 
-        propertyRepository.save(Property.builder().address("Grypari 152").yearOfConstruction(1960).propertyType(PropertyType.APARTMENT).propertyOwner(null).repairList(null).build());
+        Property property3 = Property.builder().address("Spiti Tou").yearOfConstruction(2024).propertyType(PropertyType.MAISONETTE).propertyOwner(propertyOwner1).repairList(null).build();
+        propertyRepository.save(Property.builder().address("Grypari 152").yearOfConstruction(1960).propertyType(PropertyType.APARTMENT).propertyOwner(propertyOwner1).repairList(null).build());
         propertyRepository.save(Property.builder().address("Kalypsous 59").yearOfConstruction(2000).propertyType(PropertyType.DETACHED_HOUSE).propertyOwner(null).repairList(null).build());
-        propertyRepository.save(Property.builder().address("Spiti Tou").yearOfConstruction(2024).propertyType(PropertyType.MAISONETTE).propertyOwner(null).repairList(null).build());
+        propertyRepository.save(property3);
 
         repairRepository.save(Repair.builder().scheduledRepairDate(LocalDateTime.of(2024, 11, 16, 15, 30)).repairStatus(RepairStatus.PENDING).repairType(RepairType.ELECTRICAL).cost(1200.).property(null).description("Ti eipes?").build());
         repairRepository.save(Repair.builder().scheduledRepairDate(LocalDateTime.of(2024, 10, 15, 22, 30)).repairStatus(RepairStatus.INPROGRESS).repairType(RepairType.PLUMBING).cost(2000.).property(null).description("Ti eipa?").build());
-        repairRepository.save(Repair.builder().scheduledRepairDate(LocalDateTime.of(2024, 9, 14, 9, 30)).repairStatus(RepairStatus.COMPLETE).repairType(RepairType.PAINTING).cost(550.).property(null).description("Ti eipe?").build());
+        repairRepository.save(Repair.builder().scheduledRepairDate(LocalDateTime.of(2024, 9, 14, 9, 30)).repairStatus(RepairStatus.COMPLETE).repairType(RepairType.PAINTING).cost(550.).property(property3).description("Ti eipe?").build());
     }
 }

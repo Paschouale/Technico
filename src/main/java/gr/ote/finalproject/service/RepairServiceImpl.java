@@ -7,6 +7,7 @@ import lombok.AllArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Optional;
 
@@ -32,10 +33,10 @@ public class RepairServiceImpl implements RepairService {
         return null;
     }
 
-//    @Override
-//    public List<Repair> findRepairsByPropertyIdNumber(String propertyIdNumber) {
-//        return repairRepository.findRepairsByPropertyIdNumber(propertyIdNumber);
-//    }
+    @Override
+    public List<Repair> findByPropertyId(Long id) {
+        return repairRepository.findAllByPropertyPropertyOwnerId(id);
+    }
 
     @Override
     public boolean updateRepairById(Long id, Repair repair) {
@@ -69,5 +70,13 @@ public class RepairServiceImpl implements RepairService {
     @Override
     public List<Repair> findAllRepairs() {
         return repairRepository.findAll();
+    }
+
+    public List<Repair> getRepairsByDate(LocalDateTime date) {
+        return repairRepository.findAllByScheduledRepairDate(date);
+    }
+
+    public List<Repair> getRepairsByDateRange(LocalDateTime startDate, LocalDateTime endDate) {
+        return repairRepository.findAllByScheduledRepairDateBetween(startDate, endDate);
     }
 }

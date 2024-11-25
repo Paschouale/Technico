@@ -1,5 +1,6 @@
 package gr.ote.finalproject.service;
 
+import gr.ote.finalproject.domain.Property;
 import gr.ote.finalproject.domain.PropertyOwner;
 import gr.ote.finalproject.repository.PropertyOwnerRepository;
 import lombok.AllArgsConstructor;
@@ -63,5 +64,16 @@ public class PropertyOwnerServiceImpl implements PropertyOwnerService{
     @Override
     public List<PropertyOwner> findAllPropertyOwners() {
         return propertyOwnerRepository.findAll();
+    }
+
+    @Override
+    public PropertyOwner findPropertyOwnerById(Long id) {
+        Optional<PropertyOwner> tempPropertyOwner = propertyOwnerRepository.findById(id);
+
+        if (tempPropertyOwner.isPresent()) {
+            PropertyOwner existingPropertyOwner = tempPropertyOwner.get();
+            return existingPropertyOwner;
+        }
+        return null;
     }
 }

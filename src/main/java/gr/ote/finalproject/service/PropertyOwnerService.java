@@ -11,4 +11,5 @@ public interface PropertyOwnerService {
     boolean updatePropertyOwnerByVatNumber(Long id, PropertyOwner propertyOwner);
     boolean deletePropertyOwnerByVatNumber(Long id);
     List<PropertyOwner> findAllPropertyOwners();
+    PropertyOwner findPropertyOwnerById(Long id);
 }

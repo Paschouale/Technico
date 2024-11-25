@@ -14,16 +14,8 @@ import java.util.List;
 
 public interface RepairRepository extends JpaRepository<Repair, Long> {
 
-//    List<Repair> findRepairsByPropertyIdNumber(String propertyIdNumber);
+    List<Repair> findAllByPropertyPropertyOwnerId(Long id);
+    List<Repair> findAllByScheduledRepairDate(LocalDateTime date);
+    List<Repair> findAllByScheduledRepairDateBetween(LocalDateTime startDate, LocalDateTime endDate);
 
-
-//    private static List<Repair> repairList = new ArrayList<>();
-//
-//    static {
-//
-//        PropertyOwner owner1 = new PropertyOwner(1L, "132156888", "Dim", "Pas", "Gryp", "698", "test@test.gr", "paschouale", null);
-//        Property property1 = new Property(1L, null, owner1, PropertyType.APARTMENT, 2005, "Stadiou 10", "P001");
-//        Repair repair1 = new Repair(1L, LocalDateTime.now(), RepairStatus.STANDBY, RepairType.PAINTING, 500.0, property1, "Painting the living room");
-//        repairList.add(repair1);
-//    }
 }

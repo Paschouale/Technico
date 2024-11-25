@@ -2,6 +2,7 @@ package gr.ote.finalproject.service;
 
 import gr.ote.finalproject.domain.Property;
 import gr.ote.finalproject.domain.PropertyOwner;
+import gr.ote.finalproject.repository.PropertyOwnerRepository;
 import gr.ote.finalproject.repository.PropertyRepository;
 import lombok.AllArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -15,6 +16,7 @@ import java.util.Optional;
 public class PropertyServiceImpl implements PropertyService {
 
     private final PropertyRepository propertyRepository;
+    private final PropertyOwnerService propertyOwnerService;
 
     @Override
     public Property createProperty(Property property) {
@@ -32,10 +34,10 @@ public class PropertyServiceImpl implements PropertyService {
         return null;
     }
 
-//    @Override
-//    public List<Property> findPropertiesByOwnerVat(String vatNumber) {
-//        return propertyRepository.findPropertiesByOwnerVat(vatNumber);
-//    }
+    @Override
+    public List<Property> findAllByPropertyOwnerVat(String vatNumber) {
+        return propertyRepository.findAllByPropertyOwnerVatNumber(vatNumber);
+    }
 
     @Override
     public boolean updatePropertyByPropertyIdNumber(Long propertyIdNumber, Property property) {

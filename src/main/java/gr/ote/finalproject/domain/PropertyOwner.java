@@ -1,5 +1,6 @@
 package gr.ote.finalproject.domain;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.Entity;
 import jakarta.persistence.OneToMany;
 import jakarta.persistence.SequenceGenerator;
@@ -28,7 +29,8 @@ public class PropertyOwner extends BaseDomain{
     private String email;
     private String username;
 //    private String password;
-//    @OneToMany(mappedBy = "propertyOwner")
+    @JsonIgnore
+    @OneToMany(mappedBy = "propertyOwner")
     private List<Property> propertyList;
 
     public PropertyOwner(Long id, String vatNumber, String name, String surname, String address, String phoneNumber, String email, String username, List<Property> propertyList) {

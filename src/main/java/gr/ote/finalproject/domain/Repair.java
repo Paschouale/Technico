@@ -1,5 +1,6 @@
 package gr.ote.finalproject.domain;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import gr.ote.finalproject.enumeration.RepairStatus;
 import gr.ote.finalproject.enumeration.RepairType;
 import jakarta.persistence.*;
@@ -26,6 +27,8 @@ public class Repair extends BaseDomain{
     @Enumerated(EnumType.STRING)
     private RepairType repairType;
     private Double cost;
+    @JsonIgnore
+    @ManyToOne
     private Property property; // Για το repair address και owner
     private String description;
 

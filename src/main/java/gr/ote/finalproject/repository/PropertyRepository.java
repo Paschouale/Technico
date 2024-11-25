@@ -9,6 +9,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 public interface PropertyRepository extends JpaRepository<Property, Long> {
-    //List<Property> findPropertiesByOwnerVat(String vatNumber);
+
+    List<Property> findAllByPropertyOwnerVatNumber(String vatNumber);
 
 }

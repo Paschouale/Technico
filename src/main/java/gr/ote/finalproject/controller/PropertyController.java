@@ -29,24 +29,24 @@ public class PropertyController {
         return propertyService.findPropertyByPropertyIdNumber(propertyIdNumber);
     }
 
-//    @GetMapping("/owner/{vatNumber}") // localhost:8080/api/property/owner/132156888
-//    public List<Property> findPropertiesByOwnerVat(@PathVariable String vatNumber) {
-//        return propertyService.findPropertiesByOwnerVat(vatNumber);
-//    }
+    @GetMapping("/owner/{vatNumber}") // localhost:8080/api/property/owner/132156888
+    public List<Property> findPropertiesByOwnerVat(@PathVariable String vatNumber) {
+        return propertyService.findAllByPropertyOwnerVat(vatNumber);
+    }
 
     @GetMapping("/all") // localhost:8080/api/property/all
     public List<Property> findAllProperties() {
         return propertyService.findAllProperties();
     }
 
-    @PutMapping("/{propertyIdNumber}") // localhost:8080/api/property/P001
+    @PutMapping("/{propertyIdNumber}") // localhost:8080/api/property/1
     public boolean updatePropertyByPropertyIdNumber(
             @PathVariable Long propertyIdNumber,
             @RequestBody Property property) {
         return propertyService.updatePropertyByPropertyIdNumber(propertyIdNumber, property);
     }
 
-    @DeleteMapping("/{propertyIdNumber}") // localhost:8080/api/property/P001
+    @DeleteMapping("/{propertyIdNumber}") // localhost:8080/api/property/1
     public boolean deletePropertyByPropertyIdNumber(@PathVariable Long propertyIdNumber) {
         return propertyService.deletePropertyByPropertyIdNumber(propertyIdNumber);
     }

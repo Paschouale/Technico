@@ -22,7 +22,9 @@ public class Property extends BaseDomain{
     private Integer yearOfConstruction;
     @Enumerated(EnumType.STRING)
     private PropertyType propertyType;
+    @ManyToOne
     private PropertyOwner propertyOwner; //Για το vat
+    @OneToMany(mappedBy = "property")
     private List<Repair> repairList;
 
     public Property(Long id, List<Repair> repairList, PropertyOwner propertyOwner, PropertyType propertyType, Integer yearOfConstruction, String address, String propertyIdNumber) {
