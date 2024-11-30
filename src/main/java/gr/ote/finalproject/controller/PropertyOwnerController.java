@@ -2,52 +2,74 @@ package gr.ote.finalproject.controller;
 
 import gr.ote.finalproject.domain.PropertyOwner;
 import gr.ote.finalproject.service.PropertyOwnerService;
-import org.springframework.beans.factory.annotation.Autowired;
+import lombok.RequiredArgsConstructor;
+import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.http.ResponseEntity;
 
 import java.util.List;
 
+@RequiredArgsConstructor
 @RestController
-@RequestMapping("/propertyowner") //localhost:8080/api/propertyowner
+@RequestMapping("/propertyOwners") //localhost:8080/api/propertyOwners
 public class PropertyOwnerController {
 
-    @Autowired
-    private PropertyOwnerService propertyOwnerService;
+    private final PropertyOwnerService propertyOwnerService;
 
-    @GetMapping("/check") //Αγνοήστε αυτή την έφτιαξα για έλεγχο
-    public ResponseEntity<String> testEndpoint() {
-        return ResponseEntity.ok("PropertyOwner endpoint is working!");
+    @PostMapping("/create") //localhost:8080/api/propertyOwners/create
+    public ResponseEntity<PropertyOwner> createPropertyOwner(@RequestBody PropertyOwner propertyOwner){
+        PropertyOwner createdPropertyOwner = propertyOwnerService.createPropertyOwner(propertyOwner);
+        return ResponseEntity.status(HttpStatus.CREATED).body(createdPropertyOwner);
     }
 
-    @PostMapping("/create") //localhost:8080/api/propertyowner/create
-    public PropertyOwner createPropertyOwner(@RequestBody PropertyOwner propertyOwner){
-        return propertyOwnerService.createPropertyOwner(propertyOwner);
+    @GetMapping("/vat/{vatNumber}") //localhost:8080/api/propertyOwners/vat/132156888
+    public ResponseEntity<PropertyOwner> findPropertyOwnerByVatNumber(@PathVariable String vatNumber){
+        PropertyOwner propertyOwner = propertyOwnerService.findPropertyOwnerByVatNumber(vatNumber);
+        if (propertyOwner != null){
+            return ResponseEntity.ok(propertyOwner);
+        } else {
+            return ResponseEntity.notFound().build();
+        }
     }
 
-    @GetMapping("/vat/{vatNumber}") //localhost:8080/api/propertyowner/vat/132156888
-    public PropertyOwner findPropertyOwnerByVatNumber(@PathVariable String vatNumber){
-        return propertyOwnerService.findPropertyOwnerByVatNumber(vatNumber);
+    @GetMapping("/email/{email}") //localhost:8080/api/propertyOwners/email/test@test.gr
+    public ResponseEntity<PropertyOwner> findPropertyOwnerByEmail(@PathVariable String email){
+        PropertyOwner propertyOwner = propertyOwnerService.findPropertyOwnerByEmail(email);
+        if (propertyOwner != null){
+            return ResponseEntity.ok(propertyOwner);
+        } else {
+            return ResponseEntity.notFound().build();
+        }
     }
 
-    @GetMapping("/email/{email}") //localhost:8080/api/propertyowner/email/test@test.gr
-    public PropertyOwner findPropertyOwnerByEmail(@PathVariable String email){
-        return propertyOwnerService.findPropertyOwnerByEmail(email);
+    @GetMapping("/all") //localhost:8080/api/propertyOwners/all
+    public ResponseEntity<List<PropertyOwner>> findAllPropertyOwners(){
+        List<PropertyOwner> propertyOwners = propertyOwnerService.findAllPropertyOwners();
+        if (!propertyOwners.isEmpty()){
+            return ResponseEntity.ok(propertyOwners);
+        } else {
+            return ResponseEntity.noContent().build();
+        }
     }
 
-    @GetMapping("/all") //localhost:8080/api/propertyowner/all
-    public List<PropertyOwner> findAllPropertyOwners(){
-        return propertyOwnerService.findAllPropertyOwners();
+    @PutMapping("{id}") //localhost:8080/api/propertyOwners/1
+    public ResponseEntity<String> updatePropertyOwnerByVatNumber(@PathVariable Long id, @RequestBody PropertyOwner propertyOwner){
+        boolean isUpdated =  propertyOwnerService.updatePropertyOwnerByVatNumber(id, propertyOwner);
+        if (isUpdated){
+            return ResponseEntity.ok("Property Owner updated successfully.");
+        } else {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Property Owner not found.");
+        }
     }
 
-    @PutMapping("{id}") //localhost:8080/api/propertyowner/1
-    public boolean updatePropertyOwnerByVatNumber(@PathVariable Long id, @RequestBody PropertyOwner propertyOwner){
-        return propertyOwnerService.updatePropertyOwnerByVatNumber(id, propertyOwner);
-    }
-
-    @DeleteMapping("{id}") //localhost:8080/api/propertyowner/1
-    public boolean deletePropertyOwnerByVatNumber(@PathVariable Long id){
-        return propertyOwnerService.deletePropertyOwnerByVatNumber(id);
+    @DeleteMapping("{id}") //localhost:8080/api/propertyOwners/1
+    public ResponseEntity<String> deletePropertyOwnerByVatNumber(@PathVariable Long id){
+        boolean isDeleted = propertyOwnerService.deletePropertyOwnerByVatNumber(id);
+        if (isDeleted){
+            return ResponseEntity.ok("Property Owner deleted successfully.");
+        } else {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Property Owner not found.");
+        }
     }
 
 }

@@ -1,53 +1,86 @@
 package gr.ote.finalproject.controller;
 
 import gr.ote.finalproject.domain.Property;
+import gr.ote.finalproject.domain.PropertyOwner;
+import gr.ote.finalproject.service.PropertyOwnerService;
 import gr.ote.finalproject.service.PropertyService;
-import org.springframework.beans.factory.annotation.Autowired;
+import lombok.RequiredArgsConstructor;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
+@RequiredArgsConstructor
 @RestController
-@RequestMapping("/property") // localhost:8080/api/property
+@RequestMapping("/properties") // localhost:8080/api/properties
 public class PropertyController {
-    @Autowired
-    private PropertyService propertyService;
 
-    @GetMapping("/check") // localhost:8080/api/property/check - την εφτιαξα κι εγώ για έλεγχο:Ρ
-    public ResponseEntity<String> testEndpoint() {
-        return ResponseEntity.ok("Property endpoint is working!");
+    private final PropertyService propertyService;
+    private final PropertyOwnerService propertyOwnerService;
+
+
+    @PostMapping("/create") // localhost:8080/api/properties/create
+    public ResponseEntity<Property> createProperty(@RequestBody Property property) {
+        Property createdProperty = propertyService.createProperty(property);
+        return ResponseEntity.status(HttpStatus.CREATED).body(createdProperty);
     }
 
-    @PostMapping("/create") // localhost:8080/api/property/create
-    public Property createProperty(@RequestBody Property property) {
-        return propertyService.createProperty(property);
+    @GetMapping("/id/{propertyIdNumber}") // localhost:8080/api/properties/id/1
+    public ResponseEntity<Property> findPropertyByPropertyIdNumber(@PathVariable Long propertyIdNumber) {
+        Property property = propertyService.findPropertyByPropertyIdNumber(propertyIdNumber);
+        if (property != null) {
+            return ResponseEntity.ok(property);
+        } else {
+            return ResponseEntity.notFound().build();
+        }
     }
 
-    @GetMapping("/id/{propertyIdNumber}") // localhost:8080/api/property/id/P001
-    public Property findPropertyByPropertyIdNumber(@PathVariable Long propertyIdNumber) {
-        return propertyService.findPropertyByPropertyIdNumber(propertyIdNumber);
+    @GetMapping("/propertyOwner/{vatNumber}") // localhost:8080/api/properties/propertyOwner/132156888
+    public ResponseEntity<List<Property>> findPropertiesByOwnerVat(@PathVariable String vatNumber) {
+        PropertyOwner propertyOwner = propertyOwnerService.findPropertyOwnerByVatNumber(vatNumber);
+
+        if ( propertyOwner == null ) {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(null);
+        }
+
+        List<Property> properties = propertyService.findAllByPropertyOwnerVat(vatNumber);
+        if (!properties.isEmpty()) {
+            return ResponseEntity.ok(properties);
+        } else {
+            return ResponseEntity.noContent().build();
+        }
     }
 
-    @GetMapping("/owner/{vatNumber}") // localhost:8080/api/property/owner/132156888
-    public List<Property> findPropertiesByOwnerVat(@PathVariable String vatNumber) {
-        return propertyService.findAllByPropertyOwnerVat(vatNumber);
+    @GetMapping("/all") // localhost:8080/api/properties/all
+    public ResponseEntity<List<Property>> findAllProperties() {
+        List<Property> properties = propertyService.findAllProperties();
+        if (!properties.isEmpty()) {
+            return ResponseEntity.ok(properties);
+        } else {
+            return ResponseEntity.noContent().build();
+        }
     }
 
-    @GetMapping("/all") // localhost:8080/api/property/all
-    public List<Property> findAllProperties() {
-        return propertyService.findAllProperties();
-    }
-
-    @PutMapping("/{propertyIdNumber}") // localhost:8080/api/property/1
-    public boolean updatePropertyByPropertyIdNumber(
+    @PutMapping("/{propertyIdNumber}") // localhost:8080/api/properties/1
+    public ResponseEntity<String> updatePropertyByPropertyIdNumber(
             @PathVariable Long propertyIdNumber,
             @RequestBody Property property) {
-        return propertyService.updatePropertyByPropertyIdNumber(propertyIdNumber, property);
+        boolean isUpdated = propertyService.updatePropertyByPropertyIdNumber(propertyIdNumber, property);
+        if (isUpdated) {
+            return ResponseEntity.ok("Property updated successfully.");
+        } else {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Property not found.");
+        }
     }
 
-    @DeleteMapping("/{propertyIdNumber}") // localhost:8080/api/property/1
-    public boolean deletePropertyByPropertyIdNumber(@PathVariable Long propertyIdNumber) {
-        return propertyService.deletePropertyByPropertyIdNumber(propertyIdNumber);
+    @DeleteMapping("/{propertyIdNumber}") // localhost:8080/api/properties/1
+    public ResponseEntity<String> deletePropertyByPropertyIdNumber(@PathVariable Long propertyIdNumber) {
+        boolean isDeleted = propertyService.deletePropertyByPropertyIdNumber(propertyIdNumber);
+        if (isDeleted) {
+            return ResponseEntity.ok("Property deleted successfully.");
+        } else {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Property not found.");
+        }
     }
 }

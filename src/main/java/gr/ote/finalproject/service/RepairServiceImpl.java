@@ -34,7 +34,7 @@ public class RepairServiceImpl implements RepairService {
     }
 
     @Override
-    public List<Repair> findByPropertyId(Long id) {
+    public List<Repair> findByPropertyOwnerId(Long id) {
         return repairRepository.findAllByPropertyPropertyOwnerId(id);
     }
 
