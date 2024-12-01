@@ -1,6 +1,5 @@
 package gr.ote.finalproject.service;
 
-import gr.ote.finalproject.domain.Property;
 import gr.ote.finalproject.domain.PropertyOwner;
 import gr.ote.finalproject.exception.EmailException;
 import gr.ote.finalproject.exception.PhoneNumberException;

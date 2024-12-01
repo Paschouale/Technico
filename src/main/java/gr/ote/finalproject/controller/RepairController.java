@@ -68,9 +68,9 @@ public class RepairController {
     public ResponseEntity<String> updateRepairById(@PathVariable Long id, @RequestBody Repair repair) {
         boolean isUpdated = repairService.updateRepairById(id, repair);
         if (isUpdated) {
-            return ResponseEntity.ok("Property updated successfully.");
+            return ResponseEntity.ok("Repair updated successfully.");
         } else {
-            return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Property not found.");
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Repair not found.");
         }
     }
 
@@ -78,9 +78,9 @@ public class RepairController {
     public ResponseEntity<String> deleteRepairById(@PathVariable Long id) {
         boolean isDeleted = repairService.deleteRepairById(id);
         if (isDeleted) {
-            return ResponseEntity.ok("Property deleted successfully.");
+            return ResponseEntity.ok("Repair deleted successfully.");
         } else {
-            return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Property not found.");
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Repair not found.");
         }
     }
 

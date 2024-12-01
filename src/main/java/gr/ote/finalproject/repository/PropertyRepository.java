@@ -11,5 +11,7 @@ import java.util.List;
 public interface PropertyRepository extends JpaRepository<Property, Long> {
 
     List<Property> findAllByPropertyOwnerVatNumber(String vatNumber);
+    boolean existsByNumberE9(String numberE9);
+    Property findByNumberE9(String numberE9);
 
 }

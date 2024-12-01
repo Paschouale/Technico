@@ -18,6 +18,7 @@ import java.util.List;
 @SequenceGenerator(name = "idGenerator", sequenceName = "property_seq", initialValue = 1, allocationSize = 1)
 public class Property extends BaseDomain{
 
+    private String numberE9;
     private String address;
     private Integer yearOfConstruction;
     @Enumerated(EnumType.STRING)
