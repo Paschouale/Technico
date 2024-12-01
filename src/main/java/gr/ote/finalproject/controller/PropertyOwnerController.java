@@ -53,8 +53,8 @@ public class PropertyOwnerController {
     }
 
     @PutMapping("{id}") //localhost:8080/api/propertyOwners/1
-    public ResponseEntity<String> updatePropertyOwnerByVatNumber(@PathVariable Long id, @RequestBody PropertyOwner propertyOwner){
-        boolean isUpdated =  propertyOwnerService.updatePropertyOwnerByVatNumber(id, propertyOwner);
+    public ResponseEntity<String> updatePropertyOwnerById(@PathVariable Long id, @RequestBody PropertyOwner propertyOwner){
+        boolean isUpdated =  propertyOwnerService.updatePropertyOwnerById(id, propertyOwner);
         if (isUpdated){
             return ResponseEntity.ok("Property Owner updated successfully.");
         } else {
@@ -63,8 +63,8 @@ public class PropertyOwnerController {
     }
 
     @DeleteMapping("{id}") //localhost:8080/api/propertyOwners/1
-    public ResponseEntity<String> deletePropertyOwnerByVatNumber(@PathVariable Long id){
-        boolean isDeleted = propertyOwnerService.deletePropertyOwnerByVatNumber(id);
+    public ResponseEntity<String> deletePropertyOwnerById(@PathVariable Long id){
+        boolean isDeleted = propertyOwnerService.deletePropertyOwnerById(id);
         if (isDeleted){
             return ResponseEntity.ok("Property Owner deleted successfully.");
         } else {
