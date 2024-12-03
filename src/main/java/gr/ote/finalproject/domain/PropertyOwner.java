@@ -1,15 +1,16 @@
 package gr.ote.finalproject.domain;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
-import jakarta.persistence.Entity;
-import jakarta.persistence.OneToMany;
-import jakarta.persistence.SequenceGenerator;
-import jakarta.persistence.Table;
+import com.fasterxml.jackson.annotation.*;
+import jakarta.persistence.*;
 import lombok.*;
 import lombok.experimental.SuperBuilder;
 
 import java.util.List;
 
+@JsonIdentityInfo(
+        generator = ObjectIdGenerators.PropertyGenerator.class,
+        property = "id"
+)
 @Getter
 @Setter
 @NoArgsConstructor
@@ -29,8 +30,7 @@ public class PropertyOwner extends BaseDomain{
     private String email;
     private String username;
 //    private String password;
-    @JsonIgnore
-    @OneToMany(mappedBy = "propertyOwner")
+    @OneToMany(mappedBy = "propertyOwner", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Property> propertyList;
 
     public PropertyOwner(Long id, String vatNumber, String name, String surname, String address, String phoneNumber, String email, String username, List<Property> propertyList) {

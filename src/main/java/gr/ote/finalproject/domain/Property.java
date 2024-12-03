@@ -1,5 +1,8 @@
 package gr.ote.finalproject.domain;
 
+import com.fasterxml.jackson.annotation.JsonIdentityInfo;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.fasterxml.jackson.annotation.ObjectIdGenerators;
 import gr.ote.finalproject.enumeration.PropertyType;
 import jakarta.persistence.*;
 import lombok.*;
@@ -7,6 +10,10 @@ import lombok.experimental.SuperBuilder;
 
 import java.util.List;
 
+@JsonIdentityInfo(
+        generator = ObjectIdGenerators.PropertyGenerator.class,
+        property = "id"
+)
 @Getter
 @Setter
 @NoArgsConstructor
@@ -24,8 +31,10 @@ public class Property extends BaseDomain{
     @Enumerated(EnumType.STRING)
     private PropertyType propertyType;
     @ManyToOne
+    @JsonIgnoreProperties("propertyList")
     private PropertyOwner propertyOwner; //Για το vat
-    @OneToMany(mappedBy = "property")
+
+    @OneToMany(mappedBy = "property", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Repair> repairList;
 
     public Property(Long id, List<Repair> repairList, PropertyOwner propertyOwner, PropertyType propertyType, Integer yearOfConstruction, String address, String propertyIdNumber) {

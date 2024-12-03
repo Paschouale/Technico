@@ -2,9 +2,12 @@ package gr.ote.finalproject.service;
 
 import gr.ote.finalproject.domain.Property;
 import gr.ote.finalproject.domain.PropertyOwner;
+import gr.ote.finalproject.domain.Repair;
 import gr.ote.finalproject.exception.NumberE9Exception;
+import gr.ote.finalproject.exception.ResourceNotFoundException;
 import gr.ote.finalproject.repository.PropertyOwnerRepository;
 import gr.ote.finalproject.repository.PropertyRepository;
+import gr.ote.finalproject.repository.RepairRepository;
 import lombok.AllArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -17,7 +20,7 @@ import java.util.Optional;
 public class PropertyServiceImpl implements PropertyService {
 
     private final PropertyRepository propertyRepository;
-    private final PropertyOwnerService propertyOwnerService;
+    private final RepairRepository repairRepository;
 
     @Override
     public Property createProperty(Property property) {
@@ -50,18 +53,35 @@ public class PropertyServiceImpl implements PropertyService {
 
             Property existingProperty = tempProperty.get();
 
+            // Δημιουργία ή Ενημέρωση της λίστας repairs
+            if (property.getRepairList() != null) {
+                for (Repair repair : property.getRepairList()) {
+                    if (repair.getId() == null) {
+                        throw new IllegalArgumentException("Repair ID must not be null.");
+                    }
+
+                    Repair existingRepair = repairRepository.findById(repair.getId())
+                            .orElseThrow(() -> new ResourceNotFoundException("Repair not found with ID: " + repair.getId()));
+
+                    // Ενημέρωση του Property στο Repair
+                    existingRepair.setProperty(existingProperty);
+                    repairRepository.save(existingRepair);
+                }
+            }
+
+            // Ενημέρωση άλλων πεδίων
             existingProperty.setNumberE9(property.getNumberE9());
             existingProperty.setAddress(property.getAddress());
             existingProperty.setYearOfConstruction(property.getYearOfConstruction());
             existingProperty.setPropertyType(property.getPropertyType());
             existingProperty.setPropertyOwner(property.getPropertyOwner());
-            existingProperty.setRepairList(property.getRepairList());
 
             propertyRepository.save(existingProperty);
             return true;
         }
         return false;
     }
+
 
     @Override
     public boolean deletePropertyByPropertyIdNumber(Long propertyIdNumber) {

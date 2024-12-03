@@ -1,6 +1,6 @@
 package gr.ote.finalproject.domain;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.*;
 import gr.ote.finalproject.enumeration.RepairStatus;
 import gr.ote.finalproject.enumeration.RepairType;
 import jakarta.persistence.*;
@@ -9,6 +9,10 @@ import lombok.experimental.SuperBuilder;
 
 import java.time.LocalDateTime;
 
+@JsonIdentityInfo(
+        generator = ObjectIdGenerators.PropertyGenerator.class,
+        property = "id"
+)
 @Getter
 @Setter
 @NoArgsConstructor
@@ -27,8 +31,8 @@ public class Repair extends BaseDomain{
     @Enumerated(EnumType.STRING)
     private RepairType repairType;
     private Double cost;
-    @JsonIgnore
     @ManyToOne
+    @JsonIgnoreProperties("repairList")
     private Property property; // Για το repair address και owner
     private String description;
 
