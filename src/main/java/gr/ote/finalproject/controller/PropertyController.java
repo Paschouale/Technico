@@ -20,7 +20,7 @@ public class PropertyController {
     private final PropertyOwnerService propertyOwnerService;
 
 
-    @PostMapping("/create") // localhost:8080/api/properties/create
+    @PostMapping // localhost:8080/api/properties
     public ResponseEntity<Property> createProperty(@RequestBody Property property) {
         Property createdProperty = propertyService.createProperty(property);
         return ResponseEntity.status(HttpStatus.CREATED).body(createdProperty);
@@ -52,7 +52,7 @@ public class PropertyController {
         }
     }
 
-    @GetMapping("/all") // localhost:8080/api/properties/all
+    @GetMapping // localhost:8080/api/properties
     public ResponseEntity<List<Property>> findAllProperties() {
         List<Property> properties = propertyService.findAllProperties();
         if (!properties.isEmpty()) {

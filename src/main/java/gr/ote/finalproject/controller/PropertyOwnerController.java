@@ -16,7 +16,7 @@ public class PropertyOwnerController {
 
     private final PropertyOwnerService propertyOwnerService;
 
-    @PostMapping("/create") //localhost:8080/api/propertyOwners/create
+    @PostMapping //localhost:8080/api/propertyOwners
     public ResponseEntity<PropertyOwner> createPropertyOwner(@RequestBody PropertyOwner propertyOwner){
         PropertyOwner createdPropertyOwner = propertyOwnerService.createPropertyOwner(propertyOwner);
         return ResponseEntity.status(HttpStatus.CREATED).body(createdPropertyOwner);
@@ -42,7 +42,7 @@ public class PropertyOwnerController {
         }
     }
 
-    @GetMapping("/all") //localhost:8080/api/propertyOwners/all
+    @GetMapping //localhost:8080/api/propertyOwners
     public ResponseEntity<List<PropertyOwner>> findAllPropertyOwners(){
         List<PropertyOwner> propertyOwners = propertyOwnerService.findAllPropertyOwners();
         if (!propertyOwners.isEmpty()){

@@ -22,7 +22,7 @@ public class RepairController {
     private final RepairService repairService;
     private final PropertyOwnerService propertyOwnerService;
 
-    @PostMapping("/create") // localhost:8080/api/repairs/create
+    @PostMapping // localhost:8080/api/repairs
     public ResponseEntity<Repair> createRepair(@RequestBody Repair repair) {
         Repair createdRepair = repairService.createRepair(repair);
         return ResponseEntity.status(HttpStatus.CREATED).body(createdRepair);
@@ -54,7 +54,7 @@ public class RepairController {
         }
     }
 
-    @GetMapping("/all") // localhost:8080/api/repairs/all
+    @GetMapping // localhost:8080/api/repairs
     public ResponseEntity<List<Repair>> findAllRepairs() {
         List<Repair> repairs = repairService.findAllRepairs();
         if (!repairs.isEmpty()) {
@@ -94,7 +94,7 @@ public class RepairController {
         }
     }
 
-    @GetMapping("/range") //http://localhost:8080/api/repairs/range?startDate=2020-11-20T00:00:00&endDate=2024-11-25T23:59:59
+    @GetMapping("/date-range") //http://localhost:8080/api/repairs/date-range?startDate=2020-11-20T00:00:00&endDate=2024-11-25T23:59:59
     public ResponseEntity<List<Repair>> getRepairsByDateRange(
             @RequestParam LocalDateTime startDate,
             @RequestParam LocalDateTime endDate) {
