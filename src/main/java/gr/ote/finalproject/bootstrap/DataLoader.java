@@ -1,11 +1,14 @@
 package gr.ote.finalproject.bootstrap;
 
+import gr.ote.finalproject.domain.LoginUser;
 import gr.ote.finalproject.domain.Property;
 import gr.ote.finalproject.domain.PropertyOwner;
 import gr.ote.finalproject.domain.Repair;
 import gr.ote.finalproject.enumeration.PropertyType;
 import gr.ote.finalproject.enumeration.RepairStatus;
 import gr.ote.finalproject.enumeration.RepairType;
+import gr.ote.finalproject.enumeration.Role;
+import gr.ote.finalproject.repository.LoginUserRepository;
 import gr.ote.finalproject.repository.PropertyOwnerRepository;
 import gr.ote.finalproject.repository.PropertyRepository;
 import gr.ote.finalproject.repository.RepairRepository;
@@ -23,6 +26,7 @@ public class DataLoader implements ApplicationRunner {
     private final PropertyOwnerRepository propertyOwnerRepository;
     private final PropertyRepository propertyRepository;
     private final RepairRepository repairRepository;
+    private final LoginUserRepository loginUserRepository;
 
     public void run(ApplicationArguments args){
         PropertyOwner propertyOwner1 = PropertyOwner.builder().vatNumber("132156888").name("Dimitrios").surname("Paschalis").address("Grypari 152").email("paschouale@hotmail.com").username("Paschouale").build();
@@ -39,5 +43,8 @@ public class DataLoader implements ApplicationRunner {
         repairRepository.save(Repair.builder().scheduledRepairDate(LocalDateTime.of(2024, 11, 16, 15, 30)).repairStatus(RepairStatus.PENDING).repairType(RepairType.ELECTRICAL).cost(1200.).property(null).description("Ti eipes?").build());
         repairRepository.save(Repair.builder().scheduledRepairDate(LocalDateTime.of(2024, 10, 15, 22, 30)).repairStatus(RepairStatus.INPROGRESS).repairType(RepairType.PLUMBING).cost(2000.).property(null).description("Ti eipa?").build());
         repairRepository.save(Repair.builder().scheduledRepairDate(LocalDateTime.of(2024, 9, 14, 9, 30)).repairStatus(RepairStatus.COMPLETE).repairType(RepairType.PAINTING).cost(550.).property(property3).description("Ti eipe?").build());
+
+        loginUserRepository.save(LoginUser.builder().username("admin").password("1234").role(Role.ADMIN).build());
+        loginUserRepository.save(LoginUser.builder().username("dpaschal").password("1234").role(Role.PROPERTY_OWNER).propertyOwner(propertyOwner1).build());
     }
 }
