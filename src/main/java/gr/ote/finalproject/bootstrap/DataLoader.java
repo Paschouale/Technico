@@ -29,11 +29,11 @@ public class DataLoader implements ApplicationRunner {
     private final LoginUserRepository loginUserRepository;
 
     public void run(ApplicationArguments args){
-        PropertyOwner propertyOwner1 = PropertyOwner.builder().vatNumber("132156888").name("Dimitrios").surname("Paschalis").address("Grypari 152").email("paschouale@hotmail.com").username("Paschouale").build();
+        PropertyOwner propertyOwner1 = PropertyOwner.builder().vatNumber("132156888").name("Dimitrios").surname("Paschalis").address("Grypari 152").email("paschouale@hotmail.com").build();
 
         propertyOwnerRepository.save(propertyOwner1);
-        propertyOwnerRepository.save(PropertyOwner.builder().vatNumber("123456789").name("Yiota").surname("Plati").address("Grypari 152").phoneNumber("6932667112").username("YiotaPl").build());
-        propertyOwnerRepository.save(PropertyOwner.builder().vatNumber("987654321").name("Spyros").surname("Farantos").address("Spiti tou").phoneNumber("6999897654").username("SpyrosF").build());
+        propertyOwnerRepository.save(PropertyOwner.builder().vatNumber("123456789").name("Yiota").surname("Plati").address("Grypari 152").phoneNumber("6932667112").email("pplati@gmail.com").build());
+        propertyOwnerRepository.save(PropertyOwner.builder().vatNumber("987654321").name("Spyros").surname("Farantos").address("Spiti tou").phoneNumber("6999897654").build());
 
         Property property3 = Property.builder().address("Spiti Tou").yearOfConstruction(2024).propertyType(PropertyType.MAISONETTE).propertyOwner(propertyOwner1).repairList(null).build();
         propertyRepository.save(Property.builder().address("Grypari 152").yearOfConstruction(1960).propertyType(PropertyType.APARTMENT).propertyOwner(propertyOwner1).repairList(null).build());

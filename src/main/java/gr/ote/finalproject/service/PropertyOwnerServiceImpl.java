@@ -1,9 +1,12 @@
 package gr.ote.finalproject.service;
 
+import gr.ote.finalproject.domain.LoginUser;
 import gr.ote.finalproject.domain.PropertyOwner;
+import gr.ote.finalproject.enumeration.Role;
 import gr.ote.finalproject.exception.EmailException;
 import gr.ote.finalproject.exception.PhoneNumberException;
 import gr.ote.finalproject.exception.VatNumberException;
+import gr.ote.finalproject.repository.LoginUserRepository;
 import gr.ote.finalproject.repository.PropertyOwnerRepository;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -13,14 +16,19 @@ import java.util.Optional;
 
 @Service
 @AllArgsConstructor
-public class PropertyOwnerServiceImpl implements PropertyOwnerService{
+public class PropertyOwnerServiceImpl implements PropertyOwnerService {
 
     private final PropertyOwnerRepository propertyOwnerRepository;
+    private final LoginUserRepository loginUserRepository;
 
     @Override
     public PropertyOwner createPropertyOwner(PropertyOwner propertyOwner) {
-        validateProperties(propertyOwner.getVatNumber(), propertyOwner.getEmail(), propertyOwner.getPhoneNumber());
-        validateUniqueness(propertyOwner.getVatNumber(), propertyOwner.getEmail());
+        validateProperties(propertyOwner.getVatNumber(), propertyOwner.getEmail(), propertyOwner.getPhoneNumber(), propertyOwner.getLoginUser().getUsername(), propertyOwner.getLoginUser().getPassword());
+        validateUniqueness(propertyOwner.getVatNumber(), propertyOwner.getEmail(), propertyOwner.getLoginUser().getUsername());
+
+        propertyOwner.getLoginUser().setRole(Role.PROPERTY_OWNER);
+        propertyOwner.getLoginUser().setPropertyOwner(propertyOwner);
+
         return propertyOwnerRepository.save(propertyOwner);
     }
 
@@ -39,25 +47,67 @@ public class PropertyOwnerServiceImpl implements PropertyOwnerService{
         Optional<PropertyOwner> tempPropertyOwner = propertyOwnerRepository.findById(id);
 
         if (tempPropertyOwner.isPresent()) {
-            validateProperties(propertyOwner.getVatNumber(), propertyOwner.getEmail(), propertyOwner.getPhoneNumber());
-            validateUniquenessForUpdate(propertyOwner.getVatNumber(), propertyOwner.getEmail(), id);
-
             PropertyOwner existingOwner = tempPropertyOwner.get();
 
-            existingOwner.setVatNumber(propertyOwner.getVatNumber());
-            existingOwner.setName(propertyOwner.getName());
-            existingOwner.setSurname(propertyOwner.getSurname());
-            existingOwner.setEmail(propertyOwner.getEmail());
-            existingOwner.setAddress(propertyOwner.getAddress());
-            existingOwner.setPhoneNumber(propertyOwner.getPhoneNumber());
-            existingOwner.setUsername(propertyOwner.getUsername());
-            existingOwner.setPropertyList(propertyOwner.getPropertyList());
+            if (propertyOwner.getVatNumber() != null) {
+                existingOwner.setVatNumber(propertyOwner.getVatNumber());
+            }
+            if (propertyOwner.getName() != null) {
+                existingOwner.setName(propertyOwner.getName());
+            }
+            if (propertyOwner.getSurname() != null) {
+                existingOwner.setSurname(propertyOwner.getSurname());
+            }
+            if (propertyOwner.getEmail() != null) {
+                existingOwner.setEmail(propertyOwner.getEmail());
+            }
+            if (propertyOwner.getAddress() != null) {
+                existingOwner.setAddress(propertyOwner.getAddress());
+            }
+            if (propertyOwner.getPhoneNumber() != null) {
+                existingOwner.setPhoneNumber(propertyOwner.getPhoneNumber());
+            }
+
+            if (propertyOwner.getLoginUser() != null) {
+                    LoginUser existingLoginUser = existingOwner.getLoginUser();
+
+                    if (propertyOwner.getLoginUser().getUsername() != null) {
+                        existingLoginUser.setUsername(propertyOwner.getLoginUser().getUsername());
+                    }
+
+                    if (propertyOwner.getLoginUser().getPassword() != null) {
+                        existingLoginUser.setPassword(propertyOwner.getLoginUser().getPassword());
+                    }
+
+                existingLoginUser.setRole(Role.PROPERTY_OWNER);
+            }
+
+            if (propertyOwner.getPropertyList() != null) {
+                existingOwner.setPropertyList(propertyOwner.getPropertyList());
+            }
+
+            validateProperties(
+                    existingOwner.getVatNumber(),
+                    existingOwner.getEmail(),
+                    existingOwner.getPhoneNumber(),
+                    existingOwner.getLoginUser().getUsername(),
+                    existingOwner.getLoginUser().getPassword()
+            );
+            validateUniquenessForUpdate(
+                    existingOwner.getVatNumber(),
+                    existingOwner.getEmail(),
+                    id,
+                    existingOwner.getLoginUser().getUsername(),
+                    existingOwner.getLoginUser().getId()
+            );
 
             propertyOwnerRepository.save(existingOwner);
             return true;
         }
+
         return false;
     }
+
 
     @Override
     public boolean deletePropertyOwnerById(Long id) {
@@ -84,7 +134,7 @@ public class PropertyOwnerServiceImpl implements PropertyOwnerService{
         return null;
     }
 
-    public void validateProperties(String vatNumber, String email, String phoneNumber){
+    public void validateProperties(String vatNumber, String email, String phoneNumber, String username, String password) {
         if (vatNumber == null || !vatNumber.matches("\\d{9}")) {
             throw new VatNumberException("VAT number must be exactly 9 digits: " + vatNumber);
         }
@@ -97,9 +147,16 @@ public class PropertyOwnerServiceImpl implements PropertyOwnerService{
         if (phoneNumber == null || !phoneNumber.matches("^[26]\\d{9}$")) {
             throw new PhoneNumberException("Invalid phone number: " + phoneNumber);
         }
+
+        if (username == null || username.length() <= 4) {
+            throw new IllegalArgumentException("Username must be more than 4 characters.");
+        }
+        if (password == null || password.length() <= 3) {
+            throw new IllegalArgumentException("Password must be more than 3 characters.");
+        }
     }
 
-    public void validateUniqueness(String vatNumber, String email){
+    public void validateUniqueness(String vatNumber, String email, String username) {
         if (propertyOwnerRepository.existsByVatNumber(vatNumber)) {
             throw new VatNumberException("VAT number already in use: " + vatNumber);
         }
@@ -107,9 +164,13 @@ public class PropertyOwnerServiceImpl implements PropertyOwnerService{
         if (propertyOwnerRepository.existsByEmail(email)) {
             throw new EmailException("Email already in use: " + email);
         }
+
+        if (loginUserRepository.existsByUsername(username)) {
+            throw new IllegalArgumentException("Username already exists: " + username);
+        }
     }
 
-    public void validateUniquenessForUpdate(String vatNumber, String email, Long id){
+    public void validateUniquenessForUpdate(String vatNumber, String email, Long id, String username, Long loginUserId) {
         PropertyOwner propertyOwner = propertyOwnerRepository.findByVatNumber(vatNumber);
         if (propertyOwner != null && !propertyOwner.getId().equals(id)) {
             throw new VatNumberException("VAT number already in use by another owner: " + vatNumber);
@@ -118,6 +179,11 @@ public class PropertyOwnerServiceImpl implements PropertyOwnerService{
         PropertyOwner propertyOwner2 = propertyOwnerRepository.findByEmail(email);
         if (propertyOwner2 != null && !propertyOwner2.getId().equals(id)) {
             throw new EmailException("Email already in use by another owner: " + email);
+        }
+
+        LoginUser loginUser = loginUserRepository.findByUsername(username);
+        if (loginUser != null && !loginUser.getId().equals(loginUserId)) {
+            throw new IllegalArgumentException("Username already in use by another owner: " + username);
         }
     }
 }

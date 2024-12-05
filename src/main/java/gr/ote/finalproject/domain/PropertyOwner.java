@@ -28,12 +28,12 @@ public class PropertyOwner extends BaseDomain{
     private String address;
     private String phoneNumber;
     private String email;
-    private String username;
-//    private String password;
     @OneToMany(mappedBy = "propertyOwner", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Property> propertyList;
+    @OneToOne(mappedBy = "propertyOwner", cascade = CascadeType.ALL, orphanRemoval = true)
+    private LoginUser loginUser;
 
-    public PropertyOwner(Long id, String vatNumber, String name, String surname, String address, String phoneNumber, String email, String username, List<Property> propertyList) {
+    public PropertyOwner(Long id, String vatNumber, String name, String surname, String address, String phoneNumber, String email, List<Property> propertyList, LoginUser loginUser) {
         super(id);
         this.vatNumber = vatNumber;
         this.name = name;
@@ -41,7 +41,7 @@ public class PropertyOwner extends BaseDomain{
         this.address = address;
         this.phoneNumber = phoneNumber;
         this.email = email;
-        this.username = username;
         this.propertyList = propertyList;
+        this.loginUser = getLoginUser();
     }
 }
