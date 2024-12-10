@@ -9,10 +9,10 @@ import lombok.experimental.SuperBuilder;
 
 import java.time.LocalDateTime;
 
-@JsonIdentityInfo(
-        generator = ObjectIdGenerators.PropertyGenerator.class,
-        property = "id"
-)
+//@JsonIdentityInfo(
+//        generator = ObjectIdGenerators.PropertyGenerator.class,
+//        property = "id"
+//)
 @Getter
 @Setter
 @NoArgsConstructor

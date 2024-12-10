@@ -7,10 +7,10 @@ import lombok.experimental.SuperBuilder;
 
 import java.util.List;
 
-@JsonIdentityInfo(
-        generator = ObjectIdGenerators.PropertyGenerator.class,
-        property = "id"
-)
+//@JsonIdentityInfo(
+//        generator = ObjectIdGenerators.PropertyGenerator.class,
+//        property = "id"
+//)
 @Getter
 @Setter
 @NoArgsConstructor
@@ -29,8 +29,10 @@ public class PropertyOwner extends BaseDomain{
     private String phoneNumber;
     private String email;
     @OneToMany(mappedBy = "propertyOwner", cascade = CascadeType.ALL, orphanRemoval = true)
+    @JsonIgnoreProperties("propertyOwner")
     private List<Property> propertyList;
     @OneToOne(mappedBy = "propertyOwner", cascade = CascadeType.ALL, orphanRemoval = true)
+    @JsonIgnoreProperties("propertyOwner")
     private LoginUser loginUser;
 
     public PropertyOwner(Long id, String vatNumber, String name, String surname, String address, String phoneNumber, String email, List<Property> propertyList, LoginUser loginUser) {
