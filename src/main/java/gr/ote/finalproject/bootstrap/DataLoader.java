@@ -57,25 +57,25 @@ public class DataLoader implements ApplicationRunner {
         propertyOwnerRepository.saveAll(propertyOwners);
 
         List<Property> properties = List.of(
-                Property.builder().address("Grypari 152").yearOfConstruction(2024)
+                Property.builder().numberE9("Ε9-12340").address("Grypari 152").yearOfConstruction(2024)
                         .propertyType(PropertyType.MAISONETTE).propertyOwner(propertyOwners.get(0)).build(),
-                Property.builder().address("Kalypsous 59").yearOfConstruction(1960).
+                Property.builder().numberE9("Ε9-12341").address("Kalypsous 59").yearOfConstruction(1960).
                         propertyType(PropertyType.APARTMENT).propertyOwner(propertyOwners.get(1)).build(),
-                Property.builder().address("Alexandras 23").yearOfConstruction(2000).
+                Property.builder().numberE9("Ε9-12342").address("Alexandras 23").yearOfConstruction(2000).
                         propertyType(PropertyType.DETACHED_HOUSE).propertyOwner(propertyOwners.get(2)).build(),
-                Property.builder().address("Kolonaki 18").yearOfConstruction(2010)
+                Property.builder().numberE9("Ε9-12343").address("Kolonaki 18").yearOfConstruction(2010)
                         .propertyType(PropertyType.APARTMENT).propertyOwner(propertyOwners.get(3)).build(),
-                Property.builder().address("Panormou 34").yearOfConstruction(1985)
+                Property.builder().numberE9("Ε9-12344").address("Panormou 34").yearOfConstruction(1985)
                         .propertyType(PropertyType.APARTMENT).propertyOwner(propertyOwners.get(4)).build(),
-                Property.builder().address("Nea Smyrni 45").yearOfConstruction(1995)
+                Property.builder().numberE9("Ε9-12345").address("Nea Smyrni 45").yearOfConstruction(1995)
                         .propertyType(PropertyType.MAISONETTE).propertyOwner(propertyOwners.get(5)).build(),
-                Property.builder().address("Marousi 78").yearOfConstruction(1970)
+                Property.builder().numberE9("Ε9-12346").address("Marousi 78").yearOfConstruction(1970)
                         .propertyType(PropertyType.DETACHED_HOUSE).propertyOwner(propertyOwners.get(6)).build(),
-                Property.builder().address("Glyfada 99").yearOfConstruction(2020)
+                Property.builder().numberE9("Ε9-12347").address("Glyfada 99").yearOfConstruction(2020)
                         .propertyType(PropertyType.MAISONETTE).propertyOwner(propertyOwners.get(7)).build(),
-                Property.builder().address("Halandri 12").yearOfConstruction(2015)
+                Property.builder().numberE9("Ε9-12348").address("Halandri 12").yearOfConstruction(2015)
                         .propertyType(PropertyType.MAISONETTE).propertyOwner(propertyOwners.get(8)).build(),
-                Property.builder().address("Kifisia 23").yearOfConstruction(1990)
+                Property.builder().numberE9("Ε9-12349").address("Kifisia 23").yearOfConstruction(1990)
                         .propertyType(PropertyType.DETACHED_HOUSE).propertyOwner(propertyOwners.get(9)).build()
         );
 

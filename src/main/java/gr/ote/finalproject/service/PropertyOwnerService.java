@@ -12,4 +12,5 @@ public interface PropertyOwnerService {
     boolean deletePropertyOwnerById(Long id);
     List<PropertyOwner> findAllPropertyOwners();
     PropertyOwner findPropertyOwnerById(Long id);
+
 }

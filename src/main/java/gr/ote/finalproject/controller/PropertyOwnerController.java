@@ -1,5 +1,6 @@
 package gr.ote.finalproject.controller;
 
+import gr.ote.finalproject.domain.Property;
 import gr.ote.finalproject.domain.PropertyOwner;
 import gr.ote.finalproject.service.PropertyOwnerService;
 import lombok.RequiredArgsConstructor;
@@ -20,6 +21,16 @@ public class PropertyOwnerController {
     public ResponseEntity<PropertyOwner> createPropertyOwner(@RequestBody PropertyOwner propertyOwner){
         PropertyOwner createdPropertyOwner = propertyOwnerService.createPropertyOwner(propertyOwner);
         return ResponseEntity.status(HttpStatus.CREATED).body(createdPropertyOwner);
+    }
+
+    @GetMapping("{id}") // localhost:8080/api/propertyOwners/1
+    public ResponseEntity<PropertyOwner> findPropertyOwnerById(@PathVariable Long id) {
+        PropertyOwner propertyOwner = propertyOwnerService.findPropertyOwnerById(id);
+        if (propertyOwner != null) {
+            return ResponseEntity.ok(propertyOwner);
+        } else {
+            return ResponseEntity.notFound().build();
+        }
     }
 
     @GetMapping("/vat/{vatNumber}") //localhost:8080/api/propertyOwners/vat/132156888
