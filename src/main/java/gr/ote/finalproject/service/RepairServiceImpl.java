@@ -58,7 +58,7 @@ public class RepairServiceImpl implements RepairService {
             existingRepair.setRepairStatus(repair.getRepairStatus());
             existingRepair.setRepairType(repair.getRepairType());
             existingRepair.setCost(repair.getCost());
-            existingRepair.setProperty(repair.getProperty());
+            //existingRepair.setProperty(repair.getProperty());
             existingRepair.setDescription(repair.getDescription());
 
             repairRepository.save(existingRepair);
