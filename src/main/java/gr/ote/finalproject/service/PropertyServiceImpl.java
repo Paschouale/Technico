@@ -74,7 +74,7 @@ public class PropertyServiceImpl implements PropertyService {
             existingProperty.setAddress(property.getAddress());
             existingProperty.setYearOfConstruction(property.getYearOfConstruction());
             existingProperty.setPropertyType(property.getPropertyType());
-            existingProperty.setPropertyOwner(property.getPropertyOwner());
+//            existingProperty.setPropertyOwner(property.getPropertyOwner());
 
             propertyRepository.save(existingProperty);
             return true;
