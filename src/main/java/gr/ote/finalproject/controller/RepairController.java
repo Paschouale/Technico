@@ -65,12 +65,12 @@ public class RepairController {
     }
 
     @PutMapping("/{id}") // localhost:8080/api/repairs/1
-    public ResponseEntity<String> updateRepairById(@PathVariable Long id, @RequestBody Repair repair) {
+    public ResponseEntity<Repair> updateRepairById(@PathVariable Long id, @RequestBody Repair repair) {
         boolean isUpdated = repairService.updateRepairById(id, repair);
         if (isUpdated) {
-            return ResponseEntity.ok("Repair updated successfully.");
+            return ResponseEntity.ok(repair);
         } else {
-            return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Repair not found.");
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(repair);
         }
     }
 
@@ -78,7 +78,7 @@ public class RepairController {
     public ResponseEntity<String> deleteRepairById(@PathVariable Long id) {
         boolean isDeleted = repairService.deleteRepairById(id);
         if (isDeleted) {
-            return ResponseEntity.ok("Repair deleted successfully.");
+            return ResponseEntity.ok(null);
         } else {
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Repair not found.");
         }

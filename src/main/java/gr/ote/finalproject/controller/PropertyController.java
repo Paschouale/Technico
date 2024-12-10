@@ -63,14 +63,14 @@ public class PropertyController {
     }
 
     @PutMapping("/{propertyIdNumber}") // localhost:8080/api/properties/1
-    public ResponseEntity<String> updatePropertyByPropertyIdNumber(
+    public ResponseEntity<Property> updatePropertyByPropertyIdNumber(
             @PathVariable Long propertyIdNumber,
             @RequestBody Property property) {
         boolean isUpdated = propertyService.updatePropertyByPropertyIdNumber(propertyIdNumber, property);
         if (isUpdated) {
-            return ResponseEntity.ok("Property updated successfully.");
+            return ResponseEntity.ok(property);
         } else {
-            return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Property not found.");
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(property);
         }
     }
 
@@ -78,7 +78,7 @@ public class PropertyController {
     public ResponseEntity<String> deletePropertyByPropertyIdNumber(@PathVariable Long propertyIdNumber) {
         boolean isDeleted = propertyService.deletePropertyByPropertyIdNumber(propertyIdNumber);
         if (isDeleted) {
-            return ResponseEntity.ok("Property deleted successfully.");
+            return ResponseEntity.ok(null);
         } else {
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Property not found.");
         }

@@ -64,12 +64,12 @@ public class PropertyOwnerController {
     }
 
     @PutMapping("{id}") //localhost:8080/api/propertyOwners/1
-    public ResponseEntity<String> updatePropertyOwnerById(@PathVariable Long id, @RequestBody PropertyOwner propertyOwner){
+    public ResponseEntity<PropertyOwner> updatePropertyOwnerById(@PathVariable Long id, @RequestBody PropertyOwner propertyOwner){
         boolean isUpdated =  propertyOwnerService.updatePropertyOwnerById(id, propertyOwner);
         if (isUpdated){
-            return ResponseEntity.ok("Property Owner updated successfully.");
+            return ResponseEntity.ok(propertyOwner);
         } else {
-            return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Property Owner not found.");
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(propertyOwner);
         }
     }
 
@@ -77,7 +77,7 @@ public class PropertyOwnerController {
     public ResponseEntity<String> deletePropertyOwnerById(@PathVariable Long id){
         boolean isDeleted = propertyOwnerService.deletePropertyOwnerById(id);
         if (isDeleted){
-            return ResponseEntity.ok("Property Owner deleted successfully.");
+            return ResponseEntity.ok(null);
         } else {
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Property Owner not found.");
         }
