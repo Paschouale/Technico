@@ -4,6 +4,7 @@ import gr.ote.finalproject.domain.LoginUser;
 import gr.ote.finalproject.domain.PropertyOwner;
 import gr.ote.finalproject.enumeration.Role;
 import gr.ote.finalproject.exception.EmailException;
+import gr.ote.finalproject.exception.GenericBusinessException;
 import gr.ote.finalproject.exception.PhoneNumberException;
 import gr.ote.finalproject.exception.VatNumberException;
 import gr.ote.finalproject.repository.LoginUserRepository;
@@ -49,33 +50,33 @@ public class PropertyOwnerServiceImpl implements PropertyOwnerService {
         if (tempPropertyOwner.isPresent()) {
             PropertyOwner existingOwner = tempPropertyOwner.get();
 
-            if (propertyOwner.getVatNumber() != null) {
+            if (!isEmptyOrNullOrBlankString(propertyOwner.getVatNumber())) {
                 existingOwner.setVatNumber(propertyOwner.getVatNumber());
             }
-            if (propertyOwner.getName() != null) {
+            if (!isEmptyOrNullOrBlankString(propertyOwner.getName())) {
                 existingOwner.setName(propertyOwner.getName());
             }
-            if (propertyOwner.getSurname() != null) {
+            if (!isEmptyOrNullOrBlankString(propertyOwner.getSurname())) {
                 existingOwner.setSurname(propertyOwner.getSurname());
             }
-            if (propertyOwner.getEmail() != null) {
+            if (!isEmptyOrNullOrBlankString(propertyOwner.getEmail())) {
                 existingOwner.setEmail(propertyOwner.getEmail());
             }
-            if (propertyOwner.getAddress() != null) {
+            if (!isEmptyOrNullOrBlankString(propertyOwner.getAddress())) {
                 existingOwner.setAddress(propertyOwner.getAddress());
             }
-            if (propertyOwner.getPhoneNumber() != null) {
+            if (!isEmptyOrNullOrBlankString(propertyOwner.getPhoneNumber())) {
                 existingOwner.setPhoneNumber(propertyOwner.getPhoneNumber());
             }
 
             if (propertyOwner.getLoginUser() != null) {
                     LoginUser existingLoginUser = existingOwner.getLoginUser();
 
-                    if (propertyOwner.getLoginUser().getUsername() != null) {
+                    if (!isEmptyOrNullOrBlankString(propertyOwner.getLoginUser().getUsername())) {
                         existingLoginUser.setUsername(propertyOwner.getLoginUser().getUsername());
                     }
 
-                    if (propertyOwner.getLoginUser().getPassword() != null) {
+                    if (!isEmptyOrNullOrBlankString(propertyOwner.getLoginUser().getPassword())) {
                         existingLoginUser.setPassword(propertyOwner.getLoginUser().getPassword());
                     }
 
@@ -166,8 +167,12 @@ public class PropertyOwnerServiceImpl implements PropertyOwnerService {
         }
 
         if (loginUserRepository.existsByUsername(username)) {
-            throw new IllegalArgumentException("Username already exists: " + username);
+            throw new GenericBusinessException("Username already exists: " + username);
         }
+    }
+
+    private boolean isEmptyOrNullOrBlankString(String stringToBeChecked){
+        return stringToBeChecked == null || stringToBeChecked.isBlank() || stringToBeChecked.isEmpty();
     }
 
     public void validateUniquenessForUpdate(String vatNumber, String email, Long id, String username, Long loginUserId) {

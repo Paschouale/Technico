@@ -3,6 +3,7 @@ package gr.ote.finalproject.service;
 import gr.ote.finalproject.domain.Property;
 import gr.ote.finalproject.domain.PropertyOwner;
 import gr.ote.finalproject.domain.Repair;
+import gr.ote.finalproject.exception.GenericBusinessException;
 import gr.ote.finalproject.exception.NumberE9Exception;
 import gr.ote.finalproject.exception.ResourceNotFoundException;
 import gr.ote.finalproject.repository.PropertyOwnerRepository;
@@ -20,11 +21,13 @@ import java.util.Optional;
 public class PropertyServiceImpl implements PropertyService {
 
     private final PropertyRepository propertyRepository;
+    private final PropertyOwnerRepository propertyOwnerRepository;
     private final RepairRepository repairRepository;
 
     @Override
     public Property createProperty(Property property) {
         validateUniqueNumberE9(property.getNumberE9());
+        validatePropertyOwnerIdExists(property.getPropertyOwner().getId());
         return propertyRepository.save(property);
     }
 
@@ -100,6 +103,12 @@ public class PropertyServiceImpl implements PropertyService {
     private void validateUniqueNumberE9(String numberE9) {
         if (propertyRepository.existsByNumberE9(numberE9)) {
             throw new NumberE9Exception("Number E9 already in use: " + numberE9);
+        }
+    }
+
+    private void validatePropertyOwnerIdExists(Long id) {
+        if (!propertyOwnerRepository.existsById(id)) {
+            throw new GenericBusinessException("Property Owner with " + id + " doesn't exist");
         }
     }
 
