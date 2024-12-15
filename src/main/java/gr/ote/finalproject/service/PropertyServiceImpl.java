@@ -72,10 +72,12 @@ public class PropertyServiceImpl implements PropertyService {
                 }
             }
 
-            // Ενημέρωση άλλων πεδίων
-            existingProperty.setNumberE9(property.getNumberE9());
-            existingProperty.setAddress(property.getAddress());
-            existingProperty.setYearOfConstruction(property.getYearOfConstruction());
+            if (!isEmptyOrNullOrBlankString(property.getNumberE9()))
+                existingProperty.setNumberE9(property.getNumberE9());
+            if (!isEmptyOrNullOrBlankString(property.getAddress()))
+                existingProperty.setAddress(property.getAddress());
+            if(!isEmptyOrNullOrBlankInteger(property.getYearOfConstruction()))
+                existingProperty.setYearOfConstruction(property.getYearOfConstruction());
             existingProperty.setPropertyType(property.getPropertyType());
 //            existingProperty.setPropertyOwner(property.getPropertyOwner());
 
@@ -84,7 +86,6 @@ public class PropertyServiceImpl implements PropertyService {
         }
         return false;
     }
-
 
     @Override
     public boolean deletePropertyByPropertyIdNumber(Long propertyIdNumber) {
@@ -110,6 +111,14 @@ public class PropertyServiceImpl implements PropertyService {
         if (!propertyOwnerRepository.existsById(id)) {
             throw new GenericBusinessException("Property Owner with " + id + " doesn't exist");
         }
+    }
+
+    private boolean isEmptyOrNullOrBlankString(String stringToBeChecked){
+        return stringToBeChecked == null || stringToBeChecked.isBlank() || stringToBeChecked.isEmpty();
+    }
+
+    private boolean isEmptyOrNullOrBlankInteger(Integer integerToBeChecked) {
+        return integerToBeChecked == null || integerToBeChecked == 0;
     }
 
     private void validateUniqueNumberE9ForUpdate(String numberE9, Long id) {
