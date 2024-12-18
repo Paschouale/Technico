@@ -51,7 +51,17 @@ public class DataLoader implements ApplicationRunner {
                 PropertyOwner.builder().vatNumber("837465291").name("Nikos").surname("Vlachos")
                         .address("Halandri 12").phoneNumber("6945678921").email("nvla@gmail.com").build(),
                 PropertyOwner.builder().vatNumber("928374651").name("Anna").surname("Karagiorgi")
-                        .address("Kifisia 23").phoneNumber("6987654321").email("akaragiorgi@gmail.com").build()
+                        .address("Kifisia 23").phoneNumber("6987654321").email("akaragiorgi@gmail.com").build(),
+                PropertyOwner.builder().vatNumber("112233445").name("Alexandros").surname("Ioannou")
+                        .address("Athinas 45").phoneNumber("6945678901").email("alex.ioannou@gmail.com").build(),
+                PropertyOwner.builder().vatNumber("556677889").name("Christina").surname("Papanikolaou")
+                        .address("Tsimiski 89").phoneNumber("6932456789").email("christina.papa@gmail.com").build(),
+                PropertyOwner.builder().vatNumber("667788990").name("Michalis").surname("Kotsis")
+                        .address("Patission 123").phoneNumber("6987654321").email("mkotsis@yahoo.com").build(),
+                PropertyOwner.builder().vatNumber("778899001").name("Sophia").surname("Theodorou")
+                        .address("Lefkosias 12").phoneNumber("6973456789").email("sophia.theo@hotmail.com").build(),
+                PropertyOwner.builder().vatNumber("889900112").name("Panagiotis").surname("Georgiou")
+                        .address("Vouliagmenis 98").phoneNumber("6909876543").email("pgeo@gmail.com").build()
         );
 
         propertyOwnerRepository.saveAll(propertyOwners);
@@ -76,7 +86,17 @@ public class DataLoader implements ApplicationRunner {
                 Property.builder().numberE9("E9-12348").address("Halandri 12").yearOfConstruction(2015)
                         .propertyType(PropertyType.MAISONETTE).propertyOwner(propertyOwners.get(8)).build(),
                 Property.builder().numberE9("E9-12349").address("Kifisia 23").yearOfConstruction(1990)
-                        .propertyType(PropertyType.DETACHED_HOUSE).propertyOwner(propertyOwners.get(9)).build()
+                        .propertyType(PropertyType.DETACHED_HOUSE).propertyOwner(propertyOwners.get(9)).build(),
+                Property.builder().numberE9("E9-12350").address("Ermou 18").yearOfConstruction(1990)
+                        .propertyType(PropertyType.APARTMENT).propertyOwner(propertyOwners.get(10)).build(),
+                Property.builder().numberE9("E9-12351").address("Kifisias 123").yearOfConstruction(2005)
+                        .propertyType(PropertyType.DETACHED_HOUSE).propertyOwner(propertyOwners.get(11)).build(),
+                Property.builder().numberE9("E9-12352").address("Panepistimiou 45").yearOfConstruction(1980)
+                        .propertyType(PropertyType.MAISONETTE).propertyOwner(propertyOwners.get(12)).build(),
+                Property.builder().numberE9("E9-12353").address("Voukourestiou 10").yearOfConstruction(2015)
+                        .propertyType(PropertyType.APARTMENT).propertyOwner(propertyOwners.get(13)).build(),
+                Property.builder().numberE9("E9-12354").address("Syggrou 98").yearOfConstruction(2020)
+                        .propertyType(PropertyType.DETACHED_HOUSE).propertyOwner(propertyOwners.get(14)).build()
         );
 
         propertyRepository.saveAll(properties);
@@ -112,7 +132,22 @@ public class DataLoader implements ApplicationRunner {
                         .property(properties.get(8)).description("Fixing pipe leaks in basement").build(),
                 Repair.builder().scheduledRepairDate(LocalDateTime.of(2024, 10, 22, 15, 30))
                         .repairStatus(RepairStatus.PENDING).repairType(RepairType.PAINTING).cost(250.)
-                        .property(properties.get(9)).description("Repainting the main hallway").build()
+                        .property(properties.get(9)).description("Repainting the main hallway").build(),
+                Repair.builder().scheduledRepairDate(LocalDateTime.of(2024, 2, 28, 10, 0))
+                        .repairStatus(RepairStatus.PENDING).repairType(RepairType.PAINTING).cost(700.)
+                        .property(properties.get(10)).description("Painting dining area").build(),
+                Repair.builder().scheduledRepairDate(LocalDateTime.of(2024, 3, 15, 14, 0))
+                        .repairStatus(RepairStatus.INPROGRESS).repairType(RepairType.ELECTRICAL).cost(900.)
+                        .property(properties.get(11)).description("Replace electrical wiring in garage").build(),
+                Repair.builder().scheduledRepairDate(LocalDateTime.of(2024, 4, 12, 16, 30))
+                        .repairStatus(RepairStatus.COMPLETE).repairType(RepairType.PLUMBING).cost(400.)
+                        .property(properties.get(12)).description("Fix shower leak in master bathroom").build(),
+                Repair.builder().scheduledRepairDate(LocalDateTime.of(2024, 6, 20, 9, 30))
+                        .repairStatus(RepairStatus.STANDBY).repairType(RepairType.PAINTING).cost(300.)
+                        .property(properties.get(13)).description("Repaint guest room walls").build(),
+                Repair.builder().scheduledRepairDate(LocalDateTime.of(2024, 7, 15, 11, 0))
+                        .repairStatus(RepairStatus.PENDING).repairType(RepairType.PLUMBING).cost(600.)
+                        .property(properties.get(14)).description("Fix clogged kitchen sink").build()
         );
 
         repairRepository.saveAll(repairs);
@@ -139,7 +174,17 @@ public class DataLoader implements ApplicationRunner {
                 LoginUser.builder().username("nvlachos").password("1234").role(Role.PROPERTY_OWNER)
                         .propertyOwner(propertyOwners.get(8)).build(),
                 LoginUser.builder().username("akaragiorgi").password("1234").role(Role.PROPERTY_OWNER)
-                        .propertyOwner(propertyOwners.get(9)).build()
+                        .propertyOwner(propertyOwners.get(9)).build(),
+                LoginUser.builder().username("aioannou").password("1234").role(Role.PROPERTY_OWNER)
+                        .propertyOwner(propertyOwners.get(10)).build(),
+                LoginUser.builder().username("cpapanikolaou").password("1234").role(Role.PROPERTY_OWNER)
+                        .propertyOwner(propertyOwners.get(11)).build(),
+                LoginUser.builder().username("mkotsis").password("1234").role(Role.PROPERTY_OWNER)
+                        .propertyOwner(propertyOwners.get(12)).build(),
+                LoginUser.builder().username("stheodorou").password("1234").role(Role.PROPERTY_OWNER)
+                        .propertyOwner(propertyOwners.get(13)).build(),
+                LoginUser.builder().username("pgeorgiou").password("1234").role(Role.PROPERTY_OWNER)
+                        .propertyOwner(propertyOwners.get(14)).build()
         );
 
         loginUserRepository.saveAll(loginUsers);
